@@ -95,5 +95,33 @@ bool boggleHelper(const std::set<std::string>& dict, const std::set<std::string>
 								   std::string word, std::set<std::string>& result, unsigned int r, unsigned int c, int dr, int dc)
 {
 //add your solution here!
+	// Base case: check bounds, check if word valid
+    if (r >= board.size() || c >= board.size()|| prefix.find(word) == prefix.end()) {
+        if(dict.find(word) != dict.end())
+        {
+          result.insert(word);
+          return true; 
+        }
+        return false;
+    }
 
+    // Append current character to the word
+    std::string nextWord;
+    nextWord=word+board[r][c];
+
+    // Variable to keep track if any recursive call found a longer valid word
+    bool foundLongerWord = boggleHelper(dict, prefix, board, nextWord, result, r + dr, c + dc, dr, dc);
+    if(foundLongerWord){
+      return true;
+    }
+
+    // If the current word is in the dictionary, check if we can extend it further
+    if (dict.find(word) != dict.end()) {
+      result.insert(word);
+      return true;
+
+    } else {
+        return false;
+    }
 }
+//check later cases before cur, insert once, better inserted first
